@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Scientific Calculator G7  </title>
+    <style>
+
+        .calculator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+
+        .calculator-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+
+
+
+           .DEG,.RAD {
+             position: relative;
+            }
+
+
+            .mode-1 {
+            position:absolute ;
+            top: -185px;
+            right: -164.5px;
+            color: rgb(255, 255, 255);
+            font-size: 1.1rem;
+             padding: 5px 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+             }         
+
+
+
+       .mode {
+            position:absolute ;
+            top: -185px;
+            right: -82px;
+            color: rgb(255, 255, 255);
+            font-size: 1.1rem;
+            padding: 5px 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+
+
+        .mode.active,.mode-1.active {
+          opacity: 1;
+         }
+
+
+
+
+
+body {
+display: flex;
+margin: 0;
+justify-content: center;
+align-items: center;
+
+height: 100vh;
+    background: radial-gradient(circle at top left, #b57bff, #4b0082, #1a002e);
+    font-family: "Poppins", sans-serif;
+
+
+
+
+}
+
+.box {
+
+    width: 480px;
+    height: 800px;
+ 
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+ 
+
+    backdrop-filter: blur(25px);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 40px rgba(180, 60, 255, 0.4), 0 0 20px rgba(255, 0, 200, 0.2);
+    border-radius: 30px;
+
+
+}
+
+
+        .display_div {
+            width: 99%;
+            height: 220px;
+            margin-bottom: 20px;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .display {
+            width: 93%;
+            height: 100%;
+            border-radius: 20px;
+            outline: none;
+            border: none;
+            color: white;
+            font-size: 3.4rem;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0 20px;
+            text-align: right;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+         
+            letter-spacing: 2px;
+        }
+
+
+
+        .buttons-1 {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+        }
+
+
+     .buttons {
+    margin-top: 20px;
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding-left:2px ;
+     }
+
+
+
+
+button {
+    height: 72px;
+
+    border-radius: 15px;
+    color: white;
+    background: linear-gradient(135deg, #9b30ff, #5a00a3);
+    box-shadow: 0 0 15px rgba(180, 60, 255, 0.5);
+    cursor: pointer;
+    border: none;
+    font-size: 2.2rem;
+    position: relative;
+
+
+    transform: perspective(600px) translateZ(0);
+    transition: transform 0.1s cubic-bezier(.2,.6,.3,1),
+                filter 0.2s ease,
+                box-shadow 0.17s ease;
+}
+
+
+
+
+.button-n-A,.button-n-A-l,.button-n-A-r {
+    height: 58px;
+
+    font-size: 1.7rem;
+}
+
+
+
+
+.button-n-l-c,.button-n-l-c-A {
+background: linear-gradient(135deg, #f55081, #e621c5);
+ box-shadow: 0 0 15px rgba(255, 75, 180, 0.5);
+}
+
+.button-n-r-y {
+    background: linear-gradient(150deg, #45c7e7,  #276191);
+    box-shadow: 0 0 15px rgba(55, 224, 216, 0.8);
+    grid-column: span 2;
+ 
+}
+
+
+
+
+
+
+
+
+
+
+.button-n:hover,.button-n-A:hover {
+    transform: translateY(-6px) perspective(600px) translateZ(12px);
+    box-shadow: 0 0 30px rgba(200, 60, 255, 1);
+
+}
+
+
+.button-n-l:hover,.button-n-A-l:hover {
+    transform: translate(-5px, -5px) perspective(600px) translateZ(12px);
+        box-shadow: 0 0 25px rgba(200, 60, 255, 0.8);
+}
+
+.button-n-l-c:hover{           
+    transform: translate(+3px,-3px);
+    box-shadow: 0 0 25px rgb(255, 39, 212);
+}
+
+
+
+.button-n-r:hover,.button-n-A-r:hover{
+  transform: translate(5px, -5px) perspective(600px) translateZ(12px);
+   box-shadow: 0 0 25px rgba(200, 60, 255, 0.8);
+}
+
+.button-n-r-y:hover{
+    transform: translateY(-7px) perspective(600px) translateZ(16px);
+    box-shadow: 0 0 35px rgba(55, 224, 216, 1);
+}
+
+
+
+button:active {
+    transform: scale(0.94);
+    filter: brightness(1.5);
+
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.6),
+                0 0 20px rgba(180, 60, 255, 0.5);
+
+}
+
+
+.button-n:active,.button-n-A:active {
+    box-shadow: 0 0 12px rgba(180, 60, 255, 0.9),
+                inset 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+
+.button-n-l:active,.button-n-A-l:active {
+    box-shadow: -2px 0 15px rgba(180, 60, 255, 0.9),
+                inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.button-n-l-c:active,.button-n-l-c-A:active {
+    box-shadow: 0 0 15px rgba(255, 75, 180, 1),
+                inset 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+.button-n-r:active,.button-n-A-r:active {
+    box-shadow: 2px 0 15px rgba(180, 60, 255, 0.9),
+                inset 0 0 12px rgba(255, 255, 255, 0.35);
+}
+
+.button-n-r-y:active {
+    box-shadow: 0 0 20px rgba(55, 224, 216, 1),
+                inset 0 0 16px rgba(255, 255, 255, 0.45);
+}
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <div class="calculator-header">
+        <div class="calculator-title"> Scientific Calculator </div>
+    </div>
+
+    <div class="display_div">
+        <input type="text" class="display" placeholder="0" id="screen">
+    </div>
+
+    <div class="buttons-1">
+
+        <button class="button-n-A-l op-btn" value="arccos">cos⁻¹</button>
+        <button class="button-n-A op-btn" value="arcsin">sin⁻¹</button>
+        <button class="button-n-A op-btn" value="arctan">tan⁻¹</button>
+
+
+        <div class="DEG">
+            <button class="button-n-A" id="btn-deg">DEG</button>
+            <div class="mode-1">DEG</div>
+        </div>
+
+
+        <div class="RAD">
+            <button class="button-n-A" id="btn-rad">RAD</button>
+            <div class="mode">RAD</div>
+        </div>
+
+        <button class="button-n-A-r op-btn" value="i">i</button>
+
+        <button class="button-n-A-l op-btn" value="cos">Cos</button>
+        <button class="button-n-A op-btn" value="sin">Sin</button>
+        <button class="button-n-A op-btn" value="tan">Tan</button>
+        <button class="button-n-A op-btn" value="ln">Ln</button>
+        <button class="button-n-A op-btn" value="log">Log</button>
+        <button class="button-n-A-r num-btn" id="eBtn"  >e</button>
+
+        <button class="button-n-A-l op-btn" value="sqrt">√</button>
+        <button class="button-n-A op-btn" value="power">Xⁿ</button>
+        <button class="button-n-A op-btn"  value="fact">n!</button>
+
+        <button class="button-n-A num-btn" value="(">(</button>
+        <button class="button-n-A num-btn" value=")">)</button>
+        <button class="button-n-A-r num-btn" id="piBtn" >π</button>
+
+    </div>
+
+
+    <div class="buttons">
+
+ 
+         
+      
+      <button class="button-n-l num-btn" value="7">7</button>
+        <button class="button-n num-btn" value="8">8</button>
+           <button class="button-n num-btn" value="9">9</button>
+        <button class="button-n-l-c">C</button>
+          <button class="button-n-l-c">&#9003;</button>
+
+       
+        <button class="button-n-l num-btn" value="4">4</button>
+        <button class="button-n num-btn" value="5">5</button>
+       
+        <button class="button-n num-btn" value="6">6</button>
+        <button class="button-n op-btn" value="sub">−</button>
+        <button class="button-n-r op-btn" value="mul">×</button>
+
+        
+        <button class="button-n-l num-btn" value="1">1</button>
+        <button class="button-n num-btn" value="2">2</button>
+        <button class="button-n num-btn" value="3">3</button>
+        <button class="button-n op-btn" value="add">+</button>
+        <button class="button-n-r op-btn" value="div">÷</button>
+
+        
+        <button class="button-n-l op-btn" value="abs">|x|</button>
+        <button class="button-n num-btn" value="0">0</button>
+        <button class="button-n num-btn" value=".">.</button>
+        <button class="button-n-r-y" id="equalBtn">=</button>
+
+    </div>
+
+    <div class="footer">Scientific Calculator G7</div>
+
+</div>
+
+<script>
+
+
+const screen = document.getElementById('screen');
+let currentInput = '';
+let angleMode = 'rad'; 
+
+const BACKEND_MAP = {
+  '+':'add', '−':'sub', '×':'mul', '÷':'div', '^':'pow',
+  '√':'sqrt', '!':'fact',
+  'sin':'sin', 'cos':'cos', 'tan':'tan',
+  'asin':'arcsin', 'acos':'arccos', 'atan':'arctan',
+  'ln':'ln', 'log':'log', 'exp':'exp', 'abs':'abs',
+  'PI':'PI', 'E':'E', 'i':'i'
+};
+
+const OPERATORS = {
+  '+': {prec: 2, assoc: 'L', arity: 2},
+  '−': {prec: 2, assoc: 'L', arity: 2},
+  '×': {prec: 3, assoc: 'L', arity: 2},
+  '÷': {prec: 3, assoc: 'L', arity: 2},
+  '^': {prec: 4, assoc: 'R', arity: 2},
+  '!': {prec: 5, assoc: 'L', arity: 1, postfix: true}
+};
+
+//  UI buttons 
+document.getElementById('piBtn')?.addEventListener('click', () => {
+  currentInput += 'π';
+  screen.value = currentInput;
+});
+document.getElementById('eBtn')?.addEventListener('click', () => {
+  currentInput += 'e';
+  screen.value = currentInput;
+});
+
+document.querySelectorAll('.num-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentInput += btn.value;
+    screen.value = currentInput;
+  });
+});
+
+document.querySelectorAll('.op-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const v = btn.value;
+    if (v === 'fact') currentInput += '!';
+    else if (v === 'power') currentInput += '^';
+    else if (v === 'sqrt') currentInput += '√(';
+    else if (v === 'abs') currentInput += 'abs(';
+    else if (['sin','cos','tan','arcsin','arccos','arctan','ln','log','exp'].includes(v)) {
+      currentInput += (v==='arcsin'?'asin(':(v==='arccos'?'acos(':(v==='arctan'?'atan(':v+'(')));
+    } else if (v==='add') currentInput += '+';
+    else if (v==='sub') currentInput += '−';
+    else if (v==='mul') currentInput += '×';
+    else if (v==='div') currentInput += '÷';
+    else currentInput += (v in BACKEND_MAP)?BACKEND_MAP[v]:v;
+    screen.value = currentInput;
+  });
+});
+
+
+
+
+
+
+//clear
+const specialBtns = document.querySelectorAll('.button-n-l-c');
+if (specialBtns.length >=1) specialBtns[0].addEventListener('click', ()=>{currentInput='';screen.value='';});
+if (specialBtns.length >=2) specialBtns[1].addEventListener('click', ()=>{currentInput=currentInput.slice(0,-1);screen.value=currentInput;});
+//mode
+document.querySelector('.RAD')?.addEventListener('click', ()=>{angleMode='rad'; document.querySelector('.mode')?.classList.add('active'); document.querySelector('.mode-1')?.classList.remove('active');});
+document.querySelector('.DEG')?.addEventListener('click', ()=>{angleMode='deg'; document.querySelector('.mode-1')?.classList.add('active'); document.querySelector('.mode')?.classList.remove('active');});
+//equality
+document.querySelector('.button-n-r-y')?.addEventListener('click', onCalculate);
+
+
+function isDigit(ch){ return /[0-9]/.test(ch); }
+function isLetter(ch){ return /[a-zA-Z]/.test(ch); }
+
+//to input a string
+function tokenize(expr){
+  const tokens=[];
+  let i=0;
+  while(i<expr.length){
+    let ch=expr[i];
+    if(ch===' '){i++; continue;}
+
+
+    if((ch==='−' || ch==='+') && (i===0 || /[+\-×÷^(!]/.test(expr[i-1]))){
+      let sign = 1;
+      while(ch==='−' || ch==='+'){
+        if(ch==='−') sign*=-1;
+        i++;
+        ch=expr[i];
+      }
+      if(/[0-9.]/.test(ch)){
+        let j=i; while(j<expr.length && /[0-9.]/.test(expr[j])) j++;
+        tokens.push({type:'number', value: String(sign * Number(expr.slice(i,j)))});
+        i=j; continue;
+      }
+      if(expr.substr(i,2)==='PI'){ tokens.push({type:'number', value: String(sign * Math.PI)}); i+=2; continue; }
+      if(expr[i]==='E'){ tokens.push({type:'number', value: String(sign * Math.E)}); i+=1; continue; }
+      if(expr[i]==='('){ tokens.push({type:'number', value:String(sign*1)}); tokens.push({type:'op', value:'×'}); continue; }
+    }
+
+   
+    if(isDigit(ch) || (ch=='.' && isDigit(expr[i+1]))){
+      let j=i; while(j<expr.length && /[0-9.]/.test(expr[j])) j++;
+      tokens.push({type:'number', value:expr.slice(i,j)});
+      i=j; continue;
+    }
+
+
+    if(expr.substr(i,2)==='PI'){ tokens.push({type:'number', value:'PI'}); i+=2; continue; }
+    if(ch==='E'){ tokens.push({type:'number', value:'E'}); i+=1; continue; }
+
+  
+    if(isLetter(ch)){
+      let j=i; while(j<expr.length && isLetter(expr[j])) j++;
+      const name=expr.slice(i,j);
+      tokens.push({type:'func', value:name});
+      i=j; continue;
+    }
+
+ 
+    if(ch==='(' || ch===')'){ tokens.push({type:'paren', value:ch}); i++; continue; }
+
+
+    if(ch==='!'){ tokens.push({type:'op', value:'!'}); i++; continue; }
+    if(ch==='√'){ tokens.push({type:'func', value:'sqrt'}); i++; continue; }
+    if(['+','−','×','÷','^'].includes(ch)){ tokens.push({type:'op', value:ch}); i++; continue; }
+
+    i++;
+  }
+  return tokens;
+}
+
+// shunting-yard  (is parser that converts from infix to postfix)
+function toRPN(tokens){
+  const output=[];
+  const ops=[];
+  for(const t of tokens){
+    if(t.type==='number'){ output.push(t); }
+    else if(t.type==='func'){ ops.push(t); }
+    else if(t.type==='op'){
+      const o1=t.value;
+      while(ops.length>0){
+        const top=ops[ops.length-1];
+        if(top.type==='func'){ output.push(ops.pop()); }
+        else if(top.type==='op'){
+          const o2=top.value;
+          const o1info=OPERATORS[o1], o2info=OPERATORS[o2];
+          if(!o2info) break;
+          if((o1info.assoc==='L' && o1info.prec<=o2info.prec) || (o1info.assoc==='R' && o1info.prec<o2info.prec)){
+            output.push(ops.pop()); continue;
+          }
+          break;
+        } else break;
+      }
+      ops.push(t);
+    } else if(t.type==='paren'){
+      if(t.value==='(') ops.push(t);
+      else{
+        while(ops.length>0 && ops[ops.length-1].type!=='paren') output.push(ops.pop());
+        if(ops.length>0) ops.pop(); // pop '('
+        if(ops.length>0 && ops[ops.length-1].type==='func') output.push(ops.pop());
+      }
+    }
+  }
+  while(ops.length>0){ const top=ops.pop(); if(top.type!=='paren') output.push(top); }
+  return output;
+}
+
+// backend call
+async function sendToBackend(a,b,op){
+  const query=`a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}&op=${encodeURIComponent(op)}&mode=${encodeURIComponent(angleMode)}`;
+  const res=await fetch(`/cgi-bin/calculator.cgi?${query}`);
+  return (await res.text()).trim();
+}
+
+async function evalRPN(rpn){
+  const stack=[];
+  for(const token of rpn){
+    if(token.type==='number'){
+      if(token.value === 'PI') stack.push(String(Math.PI));
+      else if(token.value === 'E') stack.push(String(Math.E));
+      else stack.push(token.value);
+    } else if(token.type==='func'){
+      const operand = stack.pop();
+      if(operand === undefined) return 'Error';
+      const backendOp = BACKEND_MAP[token.value] || token.value;
+      const res = await sendToBackend(operand, '0', backendOp);
+      if(res === 'ERROR' || res === 'UNDEFINED') return 'Math Error';
+      stack.push(res);
+    } else if(token.type==='op'){
+      const sym = token.value;
+      if(sym === '!'){
+        const operand = stack.pop();
+        if(operand === undefined) return 'Error';
+        const res = await sendToBackend(operand, '0', 'fact');
+        if(res === 'ERROR' || res === 'UNDEFINED') return 'Math Error';
+        stack.push(res);
+      } else {
+        const b = stack.pop(); const a = stack.pop();
+        if(a === undefined || b === undefined) return 'Error';
+        const backendOp = BACKEND_MAP[sym] || sym;
+        const res = await sendToBackend(a, b, backendOp);
+        if(res === 'ERROR' || res === 'UNDEFINED') return 'Math Error';
+        stack.push(res);
+      }
+    } else return 'Error';
+  }
+  return stack.length===1 ? stack[0] : 'Error';
+}
+
+ 
+async function onCalculate(e){
+  e?.preventDefault?.();
+  if(!currentInput || currentInput.trim()==='') return;
+  try{
+    // normalize and remove spaces
+    let expr = currentInput.replace(/\s+/g,'').replace(/\u2212/g,'−');
+
+    // convert symbols for tokenizer
+    expr = expr.replace(/π/g, 'PI');
+    expr = expr.replace(/e(?![a-zA-Z])/g, 'E');
+
+    // implicit multiplication (add multiplivation befor paratheses)
+    expr = expr.replace(/(\d|PI|E)\(/g, '$1×(');
+    expr = expr.replace(/\)(?=\d|PI|E|\()/g, ')×');
+    expr = expr.replace(/(\d)(?=PI|E)/g, '$1×');
+    expr = expr.replace(/(PI|E)(?=\d)/g, '$1×');
+    expr = expr.replace(/(PI|E)(?=PI|E)/g, '$1×');
+    expr = expr.replace(/(\d|PI|E|\))(?=[a-zA-Z])/g, '$1×');
+
+    const tokens = tokenize(expr);
+    const rpn = toRPN(tokens);
+    const result = await evalRPN(rpn);
+
+    if(result === 'Math Error' ) screen.value = 'UNDEFINED';
+    else screen.value = result;
+    currentInput = (result === 'Math Error' || result === 'Error') ? '' : String(result);
+  }catch(err){
+    console.error(err);
+    screen.value = 'Error';
+    currentInput = '';
+  }
+}
+
+// keyboard support 
+document.addEventListener('keydown',ev=>{
+  if(ev.key==='Enter'){ onCalculate(); ev.preventDefault(); }
+  if(ev.key==='Backspace'){ currentInput=currentInput.slice(0,-1); screen.value=currentInput; ev.preventDefault(); }
+});
+
+</script>
+
+
+
+
+</body>
+</html>
