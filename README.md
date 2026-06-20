@@ -1,4 +1,4 @@
-#Scientific calculator Web application using C and HTML, CSS, JS 
+# Scientific calculator Web application using C and HTML, CSS, JS 
 
 
 ## 📸 Demo Screenshots
